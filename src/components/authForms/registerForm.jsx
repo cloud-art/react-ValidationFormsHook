@@ -6,9 +6,9 @@ import { useInput } from '../../hooks'
 
 const RegisterForm = () => {
     const username = useInput('', {minLength: 5})
-    const email = useInput('', {empty: false})
+    const email = useInput('', {empty: false, isEmail: true})
     const password = useInput('', {minLength: 8})
-    const rePassword = useInput('', {empty: false})
+    const rePassword = useInput('', {isConfirm: password.value})
 
     return(
         <form className='form-container'>
@@ -24,7 +24,7 @@ const RegisterForm = () => {
                     {(username.isDirty) && 
                     <ul className='errors-ul'>
                         {username.errorsList.map((err, index) => {
-                            return <li key={index}>{err.text}</li>
+                            return <li className='errors-li' key={index}>{err.text}</li>
                         })}
                     </ul>}
                 </label>
@@ -41,7 +41,7 @@ const RegisterForm = () => {
                     {(email.isDirty) && 
                     <ul className='errors-ul'>
                         {email.errorsList.map((err, index) => {
-                            return <li key={index}>{err.text}</li>
+                            return <li className='errors-li' key={index}>{err.text}</li>
                         })}
                     </ul>}
                 </label>
@@ -58,7 +58,7 @@ const RegisterForm = () => {
                     {(password.isDirty) && 
                     <ul className='errors-ul'>
                         {password.errorsList.map((err, index) => {
-                            return <li key={index}>{err.text}</li>
+                            return <li className='errors-li' key={index}>{err.text}</li>
                         })}
                     </ul>}
                 </label>
@@ -76,7 +76,7 @@ const RegisterForm = () => {
                     {(rePassword.isDirty) && 
                     <ul className='errors-ul'>
                         {rePassword.errorsList.map((err, index) => {
-                            return <li key={index}>{err.text}</li>
+                            return <li className='errors-li' key={index}>{err.text}</li>
                         })}
                     </ul>}
                 </label>

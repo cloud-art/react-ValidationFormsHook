@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
 const useValidation = (value, validations) => {
-    const [isEmpty, setIsEmpty] = useState(true)
+    const [isEmptyError, setIsEmptyError] = useState(false)
     const [minLengthError, setMinLengthError] = useState(false)
+    const [isEmailError, setIsEmailError] = useState(false)
+    const [isConfirmError, setIsConfirmError] = useState(false)
     const [inputValid, setInputValid] = useState(false)
     const [errorsList, setErrorsList] = useState([])
 
@@ -27,16 +29,17 @@ const useValidation = (value, validations) => {
             switch (validation) {
                 case 'empty':
                     if (value){
-                        setIsEmpty(false)
+                        setIsEmptyError(false)
                         removeError(validation, errorsList)
                     } else{
                         if (!errorsListContains(validation, errorsList)){
                             addError(validation, "Поле не может быть пустым", errorsList)
                         }
+                        setIsEmptyError(true)
                     }
                     break;
                 case 'minLength':
-                    const minLength = validations['minLength']
+                    const minLength = validations[validation]
                     if (value.length >= minLength){
                         setMinLengthError(false)
                         removeError(validation, errorsList)
@@ -47,6 +50,29 @@ const useValidation = (value, validations) => {
                         }
                     }
                     break;
+                case 'isEmail':
+                    const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
+                    if (value.match(re)){
+                        setIsEmailError(false)
+                        removeError(validation, errorsList)
+                    } else{
+                        setIsEmailError(true)
+                        if (!errorsListContains(validation, errorsList)){
+                            addError(validation, `Запись не похожа на email`, errorsList)
+                        }
+                    }
+                    break;
+                case 'isConfirm':
+                    const v = validations[validation]
+                    if(value == v && value !== ''){
+                        setIsConfirmError(false)
+                        removeError(validation, errorsList)
+                    }else{
+                        setMinLengthError(true)
+                        if (!errorsListContains(validation, errorsList)){
+                            addError(validation, `Записи не похожи`, errorsList)
+                        }
+                    }
             }
         }
     }, [value])
@@ -56,8 +82,9 @@ const useValidation = (value, validations) => {
     }, [errorsList])
 
     return {
-        isEmpty,
+        isEmptyError,
         minLengthError,
+        isEmailError,
         inputValid,
         errorsList
     }
