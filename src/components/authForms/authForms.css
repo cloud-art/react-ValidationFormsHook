@@ -1,0 +1,68 @@
+
+form {
+    border: 3px solid #f1f1f1;
+  }
+  
+  input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  
+  .cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+    
+  }
+  
+  .form-container {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    max-width: 320px;
+  }
+  
+  .form-ending{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+  }
+  
+  .errors-ul{
+    list-style: none;
+    padding: 0 0 5px 5px;
+    margin: 0;
+    color: rgb(255, 73, 73);
+  }
+  
+  .forgot{
+    align-self: center;
+  }
+  
+  @media screen and (max-width: 300px) {
+    .form-ending{
+      flex-direction: column;
+    }
+    
+    .cancelbtn{
+      width: 100%;
+    }
+  }
