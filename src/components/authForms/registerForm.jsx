@@ -6,10 +6,9 @@ import { useInput } from '../../hooks'
 
 const RegisterForm = () => {
     const username = useInput('', {minLength: 5})
-    const email = useInput('', {empty: false, isEmail: true})
+    const email = useInput('', {isEmail: true})
     const password = useInput('', {minLength: 8})
     const rePassword = useInput('', {isConfirm: password.value})
-
     return(
         <form className='form-container'>
                 <label htmlFor={"username"}>

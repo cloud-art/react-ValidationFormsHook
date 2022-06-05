@@ -28,54 +28,47 @@ const useValidation = (value, validations) => {
         for(const validation in validations){
             switch (validation) {
                 case 'empty':
-                    if (value){
-                        setIsEmptyError(false)
-                        removeError(validation, errorsList)
-                    } else{
-                        if (!errorsListContains(validation, errorsList)){
-                            addError(validation, "Поле не может быть пустым", errorsList)
-                        }
-                        setIsEmptyError(true)
-                    }
-                    break;
+                    value? setIsEmptyError(false) : setIsEmptyError(true)
+                    break
                 case 'minLength':
                     const minLength = validations[validation]
-                    if (value.length >= minLength){
-                        setMinLengthError(false)
-                        removeError(validation, errorsList)
-                    } else{
-                        setMinLengthError(true)
-                        if (!errorsListContains(validation, errorsList)){
-                            addError(validation, `Символов должно быть не менее ${minLength}`, errorsList)
-                        }
-                    }
-                    break;
+                    value.length >= minLength? setMinLengthError(false) : setMinLengthError(true)
+                    break
                 case 'isEmail':
                     const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
-                    if (value.match(re)){
-                        setIsEmailError(false)
-                        removeError(validation, errorsList)
-                    } else{
-                        setIsEmailError(true)
-                        if (!errorsListContains(validation, errorsList)){
-                            addError(validation, `Запись не похожа на email`, errorsList)
-                        }
-                    }
-                    break;
+                    value.match(re)? setIsEmailError(false) : setIsEmailError(true)
+                    break
                 case 'isConfirm':
                     const v = validations[validation]
-                    if(value == v && value !== ''){
-                        setIsConfirmError(false)
-                        removeError(validation, errorsList)
-                    }else{
-                        setMinLengthError(true)
-                        if (!errorsListContains(validation, errorsList)){
-                            addError(validation, `Записи не похожи`, errorsList)
-                        }
-                    }
+                    value === v? setIsConfirmError(false) : setIsConfirmError(true)
+                    break
             }
         }
     }, [value])
+
+    // если добавляет или убирает ошибка, заносим в массив ошибок название и текст
+
+    useEffect( () => {
+        const validation = 'empty'
+        isEmptyError == true ? addError(validation, "Поле не может быть пустым", errorsList) : removeError(validation, errorsList)
+    }, [isEmptyError])
+
+    useEffect( () => {
+        const validation = 'minLength'
+        minLengthError == true ? addError(validation, `Символов должно быть не менее ${validations[validation]}`, errorsList) : removeError(validation, errorsList)
+    }, [ minLengthError])
+
+    useEffect( () => {
+        const validation = 'isEmail'
+        isEmailError == true ? addError(validation, "Запись не похожа на email", errorsList) : removeError(validation, errorsList)
+    }, [isEmailError])
+
+    useEffect( () => {
+        const validation = 'isConfirm'
+        isConfirmError == true ? addError(validation, "Записи не похожи", errorsList) : removeError(validation, errorsList)
+    }, [isConfirmError])
+
+    // если массив ошибок пуст, то форма валидна и наоборот
 
     useEffect( () =>{
         errorsList.length > 0? setInputValid(false) : setInputValid(true)
@@ -85,6 +78,7 @@ const useValidation = (value, validations) => {
         isEmptyError,
         minLengthError,
         isEmailError,
+        isConfirmError,
         inputValid,
         errorsList
     }
