@@ -1,8 +1,11 @@
 import { RegisterForm } from './components';
+import "./App.css"
 
 function App() {
   return (
-    <RegisterForm/>
+    <div className='page'>
+      <RegisterForm/>
+    </div>
   );
 }
 

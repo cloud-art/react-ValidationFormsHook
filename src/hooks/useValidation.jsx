@@ -24,7 +24,7 @@ const useValidation = (value, validations) => {
     useEffect( () => {
         // Проходим по каждому условию валидации
         // Если текст проходит валидацию, то ошибка убирается
-        // Если не проходит - добавляется в список ошибка 
+        // Если не проходит - меняем state ошибки на true
         for(const validation in validations){
             switch (validation) {
                 case 'empty':
@@ -46,7 +46,7 @@ const useValidation = (value, validations) => {
         }
     }, [value])
 
-    // если добавляет или убирает ошибка, заносим в массив ошибок название и текст
+    // если ошибка появляется или пропадает, заносим в массив ошибок название и текст
 
     useEffect( () => {
         const validation = 'empty'
